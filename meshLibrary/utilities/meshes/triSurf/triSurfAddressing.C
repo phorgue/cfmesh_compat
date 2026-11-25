@@ -29,6 +29,8 @@ Description
 #include "VRWGraphSMPModifier.H"
 #include "demandDrivenData.H"
 
+#include "helperFunctions.H"
+
 #include <set>
 
 # ifdef USE_OMP
@@ -289,7 +291,7 @@ void triSurfAddressing::calculateFacetNormals() const
     # endif
     forAll(facets_, fI)
     {
-        vector v = facets_[fI].normal(points_);
+        vector v = help::faceAreaVector(points_, facets_[fI]);
         v /= (mag(v) + VSMALL);
         (*facetNormalsPtr_)[fI] = v;
     }

@@ -344,7 +344,7 @@ void triSurfaceCurvatureEstimator::calculateSurfaceCurvatures()
                     continue;
 
                 otherLabels[regionI].insert(pI);
-                normals[regionI] += surface_[triI].normal(points);
+                normals[regionI] += help::faceAreaVector(points, surface_[triI]);
             }
         }
 

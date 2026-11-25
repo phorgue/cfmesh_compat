@@ -211,7 +211,7 @@ void meshSurfaceCheckInvertedVertices::checkVertices()
                 fCentres[bfI]
             );
 
-            vector nNext = triNext.normal();
+            vector nNext = help::facetAreaVector(triNext);
             scalar mNext = mag(nNext);
 
             //- face has zero area
@@ -268,7 +268,7 @@ void meshSurfaceCheckInvertedVertices::checkVertices()
                 points[bf.prevLabel(pI)]
             );
 
-            vector nPrev = triPrev.normal();
+            vector nPrev = help::facetAreaVector(triPrev);
             scalar mPrev = mag(nPrev);
 
             //- face has zero area

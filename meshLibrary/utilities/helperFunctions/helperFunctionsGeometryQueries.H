@@ -65,6 +65,22 @@ namespace help
     template<class ListType>
     bool isinf(const ListType&);
 
+    //- area vector of a triangle
+    vector facetAreaVector(const point& p0, const point& p1, const point& p2);
+
+    // area vector of face with points
+    template <typename FacePts>
+    vector faceAreaVector(const FacePts& f);
+
+    //- face area vector
+    template <typename PointField, typename Face>
+    vector faceAreaVector(const PointField& pts, const Face& f);
+
+    //- return a unit vector
+    vector unitVector(const vector& v);
+
+    //
+
     //- calculate eigenvalues
     inline vector eigenValues(const tensor&);
 

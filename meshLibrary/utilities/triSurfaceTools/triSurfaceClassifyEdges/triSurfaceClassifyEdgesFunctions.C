@@ -186,13 +186,8 @@ void triSurfaceClassifyEdges::checkOrientation()
         {
             const labelledTri& tri = surf[triI];
             const point c = tri.centre(points);
-            vector n = tri.normal(points);
-            const scalar magN = mag(n);
 
-            if( magN < VSMALL )
-                continue;
-
-            n /= magN;
+            vector n = help::unitVector(help::faceAreaVector(points, tri));
 
             //- find the OUTSIDE octree cubes in the vicinity of the triangle
             //- and check the orientation of the triangle

@@ -200,7 +200,7 @@ void polyMeshGenAddressing::calcGlobalPointLabels() const
     labelList nPointsAtProc(Pstream::nProcs());
     nPointsAtProc[Pstream::myProcNo()] = nLocalPoints;
     Pstream::gatherList(nPointsAtProc);
-    Pstream::scatterList(nPointsAtProc);
+    Pstream::broadcastList(nPointsAtProc);
     for(label i=0;i<Pstream::myProcNo();++i)
         startPoint += nPointsAtProc[i];
 
@@ -321,7 +321,7 @@ void polyMeshGenAddressing::calcGlobalFaceLabels() const
     numberOfInternalFaces[Pstream::myProcNo()] = nIntFaces + nBoundaryFaces;
 
     Pstream::gatherList(numberOfInternalFaces);
-    Pstream::scatterList(numberOfInternalFaces);
+    Pstream::broadcastList(numberOfInternalFaces);
     for(label i=0;i<Pstream::myProcNo();++i)
         startFace += numberOfInternalFaces[i];
 
@@ -387,7 +387,7 @@ void polyMeshGenAddressing::calcGlobalFaceLabels() const
             boundaries[patchI].patchSize();
     }
     Pstream::gatherList(numberOfBoundaryFaces);
-    Pstream::scatterList(numberOfBoundaryFaces);
+    Pstream::broadcastList(numberOfBoundaryFaces);
 
     forAll(boundaries, patchI)
     {
@@ -420,7 +420,7 @@ void polyMeshGenAddressing::calcGlobalCellLabels() const
     labelList nCellsAtProc(Pstream::nProcs());
     nCellsAtProc[Pstream::myProcNo()] = globalCellLabel.size();
     Pstream::gatherList(nCellsAtProc);
-    Pstream::scatterList(nCellsAtProc);
+    Pstream::broadcastList(nCellsAtProc);
     for(label i=0;i<Pstream::myProcNo();++i)
         startLabel += nCellsAtProc[i];
 
@@ -602,7 +602,7 @@ void polyMeshGenAddressing::calcGlobalEdgeLabels() const
     labelList nEdgesAtProc(Pstream::nProcs());
     nEdgesAtProc[Pstream::myProcNo()] = nLocalEdges;
     Pstream::gatherList(nEdgesAtProc);
-    Pstream::scatterList(nEdgesAtProc);
+    Pstream::broadcastList(nEdgesAtProc);
     for(label i=0;i<Pstream::myProcNo();++i)
         startEdge += nEdgesAtProc[i];
 

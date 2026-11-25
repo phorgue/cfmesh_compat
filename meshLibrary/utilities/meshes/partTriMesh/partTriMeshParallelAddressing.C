@@ -164,7 +164,7 @@ void partTriMesh::createParallelAddressing
     nSharedPoints -= nLocalPoints;
     nPointsAtProc[Pstream::myProcNo()] = pts.size() - nSharedPoints;
     Pstream::gatherList(nPointsAtProc);
-    Pstream::scatterList(nPointsAtProc);
+    Pstream::broadcastList(nPointsAtProc);
 
     for(label i=0;i<Pstream::myProcNo();++i)
         startPoint += nPointsAtProc[i];

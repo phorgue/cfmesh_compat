@@ -86,8 +86,7 @@ void renameBoundaryPatches::calculateNewBoundary()
                     newPatchNames.lookupEntry
                     (
                         keys[patchI],
-                        false,
-                        false
+                        keyType::REGEX
                     ).clone()
                 );
         }

@@ -131,7 +131,7 @@ public:
 
 //- Specify data associated with parPartTet type is contiguous
 template<>
-inline bool contiguous<parPartTet>() {return true;}
+struct is_contiguous<parPartTet> : std::true_type{};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

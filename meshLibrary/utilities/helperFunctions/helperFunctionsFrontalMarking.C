@@ -362,7 +362,7 @@ label groupMarking
         nGroupsAtProc[Pstream::myProcNo()] = nGroups;
 
         Pstream::gatherList(nGroupsAtProc);
-        Pstream::scatterList(nGroupsAtProc);
+        Pstream::broadcastList(nGroupsAtProc);
 
         label startGroup(0), totalNumGroups(0);
         for(label procI=0;procI<Pstream::nProcs();++procI)
@@ -468,8 +468,8 @@ label groupMarking
         }
 
         //- broadcast group labels from the master to other processors
-        Pstream::scatter(nGroups);
-        Pstream::scatter(allGroupsNewLabel);
+        Pstream::broadcast(nGroups);
+        Pstream::broadcast(allGroupsNewLabel);
 
         //- assign correct group labels
         forAll(globalGroupLabel, groupI)

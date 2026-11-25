@@ -45,7 +45,6 @@ void polyMeshGenModifier::addCells(const LongList<faceList>& cellFaces)
 
     //- start adding cells into the mesh
     label nFaces = faces.size();
-    label nCells = cells.size();
 
     forAll(cellFaces, cI)
     {
@@ -89,7 +88,6 @@ void polyMeshGenModifier::addCells(const LongList<faceList>& cellFaces)
         }
 
         cells.append(c);
-        ++nCells;
     }
 
     this->clearOut();
@@ -109,7 +107,6 @@ void polyMeshGenModifier::addCells(const VRWGraphList& cellFaces)
 
     //- start adding cells into the mesh
     label nFaces = faces.size();
-    label nCells = cells.size();
 
     forAll(cellFaces, cI)
     {
@@ -160,7 +157,6 @@ void polyMeshGenModifier::addCells(const VRWGraphList& cellFaces)
         }
 
         cells.append(c);
-        ++nCells;
     }
 
     this->clearOut();

@@ -57,7 +57,7 @@ class triSurfaceImportSurfaceAsSubset
         triSurf& surf_;
 
         //- pointer to meshOctree, needed for searching on the master surface
-        meshOctree* octreePtr_;
+        std::unique_ptr<meshOctree> octreePtr_;
 
     // Private member functions
         void createOctree(const triSurf&, meshOctree&);

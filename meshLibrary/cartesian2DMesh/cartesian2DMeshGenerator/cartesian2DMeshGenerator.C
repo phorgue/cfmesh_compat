@@ -275,7 +275,13 @@ cartesian2DMeshGenerator::cartesian2DMeshGenerator(const Time& time)
             checkMeshDict cmd(meshDict_);
         }
 
-        fileName surfaceFile = meshDict_.lookup("surfaceFile");
+        fileName surfaceFile;
+        if( !meshDict_.readIfPresent("surfaceFile", surfaceFile) )
+        {
+            FatalError
+                << "surfaceFile is not present in meshDict" << exit(FatalError);
+        }
+
         if( Pstream::parRun() )
             surfaceFile = ".."/surfaceFile;
 

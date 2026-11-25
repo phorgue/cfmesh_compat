@@ -779,7 +779,7 @@ void extrudeLayer::movePoints()
                     {
                         const face& f = faces[faceI];
 
-                        lps.coordinates() -= f.normal(points);
+                        lps.coordinates() -= help::faceAreaVector(points, f);
 
                         if( thickness_ < 0.0 )
                         {
@@ -869,7 +869,7 @@ void extrudeLayer::movePoints()
                 {
                     const face& f = faces[faceI];
 
-                    normal -= f.normal(points);
+                    normal -= help::faceAreaVector(points, f);
 
                     if( thickness_ < 0.0 )
                     {

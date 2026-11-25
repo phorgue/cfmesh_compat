@@ -16,7 +16,7 @@ FoamFile
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-application	;
+application	cartesian2DMesh;
 deltaT	1;
 endTime	50;
 graphFormat	raw;

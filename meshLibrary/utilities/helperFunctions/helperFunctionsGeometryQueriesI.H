@@ -69,6 +69,149 @@ bool isinf(const ListType& l)
     return false;
 }
 
+template <typename Tri>
+inline vector facetAreaVector(const Tri& t)
+{
+    return 0.5 * ((t.b() - t.a()) ^ (t.c() - t.a()));
+}
+
+template <typename FacePts>
+inline vector faceAreaVector(const FacePts& f)
+{
+    const std::size_t nPoints = f.size();
+
+    // If the face is a quad, do a direct calculation for efficiency
+    // and to avoid round-off error-related problems
+    if( nPoints == 4 )
+    {
+        const auto& p0 = f[0];
+        const auto& p1 = f[1];
+        const auto& p2 = f[2];
+        const auto& p3 = f[3];
+
+        const auto& fCentre = 0.25 * (p0 + p1 + p2 + p3);
+
+        auto sumN = vector::zero;
+
+        // first edge
+        sumN += (p1 - p0) ^ (fCentre - p0);
+
+        // second edge
+        sumN += (p2 - p1) ^ (fCentre - p1);
+
+        // third edge
+        sumN += (p3 - p2) ^  (fCentre - p2);
+
+        // fourth edge
+        sumN += (p0 - p3) ^ (fCentre - p3);
+
+        return 0.5 * sumN;
+    }
+
+    // If the face is a triangle, do a direct calculation for efficiency
+    // and to avoid round-off error-related problems
+    if (nPoints == 3)
+    {
+        const auto& p0 = f[0];
+        const auto& p1 = f[1];
+        const auto& p2 = f[2];
+
+        return 0.5 * ((p1 - p0) ^ (p2 - p0));
+    }
+
+    auto sumN = vector::zero;
+
+    auto fCentre = vector::zero;
+
+    for(auto&& p : f)
+    {
+        fCentre += p;
+    }
+
+    fCentre /= nPoints;
+
+    for(std::size_t i = 0; i < nPoints; ++i)
+    {
+        const auto& p = f[i];
+        const auto& nextPoint = f[(i+1) < nPoints ? i + 1 : 0];
+
+        sumN += (nextPoint - p) ^ (fCentre - p);
+    }
+
+    return 0.5 * sumN;
+}
+
+template <typename PointField, typename Face>
+inline vector faceAreaVector(const PointField& pts, const Face& f)
+{
+    const std::size_t nPoints = f.size();
+
+    // If the face is a quad, do a direct calculation for efficiency
+    // and to avoid round-off error-related problems
+    if( nPoints == 4 )
+    {
+        const auto& p0 = pts[f[0]];
+        const auto& p1 = pts[f[1]];
+        const auto& p2 = pts[f[2]];
+        const auto& p3 = pts[f[3]];
+
+        const auto& fCentre = 0.25 * (p0 + p1 + p2 + p3);
+
+        auto sumN = vector::zero;
+
+        // first edge
+        sumN += (p1 - p0) ^ (fCentre - p0);
+
+        // second edge
+        sumN += (p2 - p1) ^ (fCentre - p1);
+
+        // third edge
+        sumN += (p3 - p2) ^  (fCentre - p2);
+
+        // fourth edge
+        sumN += (p0 - p3) ^ (fCentre - p3);
+
+        return 0.5 * sumN;
+    }
+
+    // If the face is a triangle, do a direct calculation for efficiency
+    // and to avoid round-off error-related problems
+    if (nPoints == 3)
+    {
+        const auto& p0 = pts[f[0]];
+        const auto& p1 = pts[f[1]];
+        const auto& p2 = pts[f[2]];
+
+        return 0.5 * ((p1 - p0) ^ (p2 - p0));
+    }
+
+    auto sumN = vector::zero;
+
+    auto fCentre = vector::zero;
+
+    for(auto&& pointI : f)
+    {
+        fCentre += pts[pointI];
+    }
+
+    fCentre /= nPoints;
+
+    for(std::size_t i = 0; i < nPoints; ++i)
+    {
+        const auto& p = pts[f[i]];
+        const auto& nextPoint = pts[f[(i+1) < nPoints ? i + 1 : 0]];
+
+        sumN += (nextPoint - p) ^ (fCentre - p);
+    }
+
+    return 0.5 * sumN;
+}
+
+inline vector unitVector(const vector& v)
+{
+    return v / (mag(v) + VSMALL);
+}
+
 inline vector eigenValues(const tensor& t)
 {
     vector ret(vector::zero);
@@ -423,13 +566,12 @@ inline faceList mergePatchFaces
 
         for(label nI=0;nI<(patchFaces.size()-1);nI++)
         {
-            vector n0 = patchFaces[nI].normal(polyPoints);
-            n0 /= mag(n0);
+            const vector n0 = unitVector(faceAreaVector(polyPoints, patchFaces[nI]));
 
             for(label nJ=nI+1;nJ<patchFaces.size();nJ++)
             {
-                vector n1 = patchFaces[nI].normal(polyPoints);
-                n1 /= mag(n1);
+                const vector n1 = unitVector(faceAreaVector(polyPoints, patchFaces[nI]));
+
                 if(
                     help::shareAnEdge(patchFaces[nI], patchFaces[nJ]) &&
                     mag(n0 & n1) > 0.95
@@ -1136,14 +1278,14 @@ inline bool doTrianglesOverlap
         return false;
     }
 
-    vector n0 = tri0.normal();
+    vector n0 = facetAreaVector(tri0);
     const scalar dn0 = mag(n0);
     n0 /= (dn0 + VSMALL);
 
     if( dn0 < VSMALL )
         return false;
 
-    vector n1 = tri1.normal();
+    vector n1 = facetAreaVector(tri1);
     const scalar dn1 = mag(n1);
     n1 /= (dn1 + VSMALL);
 
@@ -1387,11 +1529,11 @@ inline bool doTrianglesIntersect
         return false;
     }
 
-    vector n0 = tri0.normal();
+    vector n0 = facetAreaVector(tri0);
     const scalar dn0 = mag(n0);
     n0 /= (dn0 + VSMALL);
 
-    vector n1 = tri1.normal();
+    vector n1 = facetAreaVector(tri1);
     const scalar dn1 = mag(n1);
     n1 /= (dn1 + VSMALL);
 
@@ -1720,8 +1862,8 @@ inline bool isFaceConvexAndOk
 {
     bool valid(true);
 
-    vector normal = f.normal(fp);
-    const scalar magN = mag(normal);
+    vector normal = faceAreaVector(fp, f);
+    const auto magN = mag(normal);
 
     //- face has zero area. All points are inverted
     if( magN < VSMALL )

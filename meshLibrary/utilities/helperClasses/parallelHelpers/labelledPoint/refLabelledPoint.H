@@ -144,7 +144,7 @@ class refLabelledPoint
 
 //- Specify data associated with refLabelledPoint type is contiguous
 template<>
-inline bool contiguous<refLabelledPoint>() {return true;}
+struct is_contiguous<refLabelledPoint> : std::true_type{};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

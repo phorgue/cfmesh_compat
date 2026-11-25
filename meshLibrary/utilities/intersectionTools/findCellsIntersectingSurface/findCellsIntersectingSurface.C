@@ -313,7 +313,9 @@ findCellsIntersectingSurface::findCellsIntersectingSurface
 findCellsIntersectingSurface::~findCellsIntersectingSurface()
 {
     if( octreeGenerated_ )
-        deleteDemandDrivenData(octreePtr_);
+    {
+        delete octreePtr_;
+    }
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

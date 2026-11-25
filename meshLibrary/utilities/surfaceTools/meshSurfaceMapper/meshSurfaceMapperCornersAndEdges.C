@@ -149,7 +149,7 @@ scalar meshSurfaceMapper::faceMetricInPatch
     const pointFieldPMG& points = surfaceEngine_.points();
 
     const point centre = bf.centre(points);
-    const vector area = bf.normal(points);
+    const vector area = help::faceAreaVector(points, bf);
 
     point projCentre;
     scalar dSq;
@@ -180,13 +180,14 @@ scalar meshSurfaceMapper::faceMetricInPatch
     vector projArea(vector::zero);
     forAll(bf, pI)
     {
-        projArea +=
-            triPointRef
-            (
-                projPoints[pI],
-                projPoints[bf.fcIndex(pI)],
-                projCentre
-            ).normal();
+        const triangle<point, point> triProj
+        (
+            projPoints[pI],
+            projPoints[bf.fcIndex(pI)],
+            projCentre
+        );
+
+        projArea += help::facetAreaVector(triProj);
     }
 
     return magSqr(centre - projCentre) + mag(mag(projArea) - mag(area));

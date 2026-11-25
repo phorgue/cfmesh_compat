@@ -454,7 +454,14 @@ void polyMeshGenModifier::zipUpCells()
 
                 if (pointChain.size() > 2)
                 {
-                    edgesToInsert[nEdgesToInsert] = pointChain;
+                    auto& val = edgesToInsert[nEdgesToInsert];
+                    val.setSize(pointChain.size());
+                    label i = 0;
+                    for(auto&& elI : pointChain)
+                    {
+                        val[i++] = elI;
+                    }
+
                     nEdgesToInsert++;
                 }
             }

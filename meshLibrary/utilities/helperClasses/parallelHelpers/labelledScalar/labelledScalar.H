@@ -177,7 +177,7 @@ class labelledScalar
 
 //- Specify data associated with labelledScalar type is contiguous
 template<>
-inline bool contiguous<labelledScalar>() {return true;}
+struct is_contiguous<labelledScalar> : std::true_type{};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

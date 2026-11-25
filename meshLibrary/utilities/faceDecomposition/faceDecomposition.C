@@ -39,7 +39,7 @@ namespace Foam
 
 label faceDecomposition::concaveVertex() const
 {
-    vector n = f_.normal(points_);
+    vector n = help::faceAreaVector(points_, f_);
     n /= mag(n);
 
     const edgeList edges = f_.edges();
@@ -112,8 +112,8 @@ bool faceDecomposition::isFaceConvex() const
 
 bool faceDecomposition::isFacePlanar(const scalar tol) const
 {
-    vector nref = f_.normal(points_);
-    nref /= mag(nref);
+    vector nref = help::faceAreaVector(points_, f_);
+    nref /= (mag(nref) + VSMALL);
 
     forAll(f_, pI)
         if( mag((points_[f_[pI]] - points_[f_[0]]) & nref) > tol )

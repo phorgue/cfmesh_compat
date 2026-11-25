@@ -214,7 +214,7 @@ void meshOctreeCreator::refineBoxesContainedInObjects()
         forAll(refObjects, objectI)
         {
             const entry& objectEntry =
-                dict.lookupEntry(objectNames[objectI], false, false);
+                dict.lookupEntry(objectNames[objectI], keyType::REGEX);
 
             refObjects.set
             (

@@ -155,7 +155,7 @@ class labelledPoint
 
 //- Specify data associated with labelledPoint type is contiguous
 template<>
-inline bool contiguous<labelledPoint>() {return true;}
+struct is_contiguous<labelledPoint> : std::true_type{};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

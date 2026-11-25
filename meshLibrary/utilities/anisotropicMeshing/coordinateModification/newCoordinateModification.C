@@ -54,7 +54,7 @@ autoPtr<Foam::coordinateModification> Foam::coordinateModification::New
         dict.lookup("type") >> cmType;
     }
 
-    dictionaryConstructorTable::iterator cstrIter =
+    const auto cstrIter =
         dictionaryConstructorTablePtr_->find(cmType);
 
     if( cstrIter == dictionaryConstructorTablePtr_->end() )

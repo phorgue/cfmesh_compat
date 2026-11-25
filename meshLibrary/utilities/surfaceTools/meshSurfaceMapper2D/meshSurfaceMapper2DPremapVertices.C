@@ -33,6 +33,8 @@ Description
 #include "refLabelledPoint.H"
 #include "helperFunctionsPar.H"
 
+#include <vector>
+
 # ifdef USE_OMP
 #include <omp.h>
 # endif
@@ -56,7 +58,7 @@ void meshSurfaceMapper2D::preMapVertices(const label nIterations)
     const VRWGraph& edgeFaces = surfaceEngine_.edgeFaces();
     const edgeList& edges = surfaceEngine_.edges();
 
-    List<labelledPoint> preMapPositions(activeBoundaryEdges_.size());
+    std::vector<labelledPoint> preMapPositions(activeBoundaryEdges_.size());
 
     for(label iterI=0;iterI<nIterations;++iterI)
     {

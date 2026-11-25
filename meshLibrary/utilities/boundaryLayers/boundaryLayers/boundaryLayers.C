@@ -374,7 +374,7 @@ void boundaryLayers::findPatchesToBeTreatedTogether()
         forAll(flattenedPatches, i)
             procPatches[Pstream::myProcNo()][i] = flattenedPatches[i];
         Pstream::gatherList(procPatches);
-        Pstream::scatterList(procPatches);
+        Pstream::broadcastList(procPatches);
 
         forAll(procPatches, procI)
         {

@@ -175,7 +175,7 @@ class meshOctreeCubeCoordinatesScalar
 //- Specify data associated with meshOctreCubeCoordinatesScalar
 //- type is contiguous
 template<>
-inline bool contiguous<meshOctreeCubeCoordinatesScalar>() {return true;}
+struct is_contiguous<meshOctreeCubeCoordinatesScalar> : std::true_type{};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

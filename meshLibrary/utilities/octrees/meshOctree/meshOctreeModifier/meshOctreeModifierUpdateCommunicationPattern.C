@@ -60,7 +60,7 @@ void meshOctreeModifier::updateCommunicationPattern()
 
     //- communicate missing ranges
     Pstream::gatherList(range);
-    Pstream::scatterList(range);
+    Pstream::broadcastList(range);
 
     //- find missing child cubes in the tree. These coordinates are located on
     //- other processors, and they must fit in the range of cubes located

@@ -121,7 +121,7 @@ void meshOctreeAddressing::calcGlobalPointLabels() const
 
     //- exchange data with other processors
     Pstream::gatherList(nLocalPoints);
-    Pstream::scatterList(nLocalPoints);
+    Pstream::broadcastList(nLocalPoints);
 
     //- find the starting point label
     label startPoint(0);
@@ -379,7 +379,7 @@ void meshOctreeAddressing::calcGlobalLeafLabels() const
 
     //- exchange the data with other processors
     Pstream::gatherList(nLeavesAtProc);
-    Pstream::scatterList(nLeavesAtProc);
+    Pstream::broadcastList(nLeavesAtProc);
 
     //- find the starting labels for
     nLeaves = 0;

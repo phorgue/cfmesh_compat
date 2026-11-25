@@ -30,7 +30,7 @@ Description
 #include "demandDrivenData.H"
 
 #include "labelledPoint.H"
-#include "helperFunctionsPar.H"
+#include "helperFunctions.H"
 
 // #define DEBUGSearch
 
@@ -107,7 +107,7 @@ void meshSurfaceEngineModifier::moveBoundaryVertex
         {
             const label bfI = pFaces(bpI, pfI);
 
-            faceNormals[bfI] = bFaces[bfI].normal(points);
+            faceNormals[bfI] = help::faceAreaVector(points, bFaces[bfI]);
         }
     }
 
@@ -277,7 +277,7 @@ void meshSurfaceEngineModifier::updateGeometry
         forAll(updateFaces, bfI)
         {
             if( updateFaces[bfI] )
-                faceNormals[bfI] = bFaces[bfI].normal(points);
+                faceNormals[bfI] = help::faceAreaVector(points, bFaces[bfI]);
         }
     }
 

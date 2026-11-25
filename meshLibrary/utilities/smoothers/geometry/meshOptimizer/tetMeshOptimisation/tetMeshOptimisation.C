@@ -483,7 +483,7 @@ void tetMeshOptimisation::optimiseBoundaryVolumeOptimizer
                                 points[nodeI]
                             );
 
-                            vector n = tri.normal();
+                            vector n = help::facetAreaVector(tri);
                             n /= (mag(n) + VSMALL);
 
                             nt += symm(n * n);

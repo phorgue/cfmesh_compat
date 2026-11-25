@@ -35,6 +35,8 @@ Description
 #include "helperFunctions.H"
 #include "meshSurfaceOptimizer.H"
 
+# include <vector>
+
 # ifdef USE_OMP
 #include <omp.h>
 # endif
@@ -62,7 +64,7 @@ void meshSurfaceMapper::preMapVertices(const label nIterations)
 
     const triSurf& surf = meshOctree_.surface();
 
-    List<labelledPointScalar> preMapPositions(boundaryPoints.size());
+    std::vector<labelledPointScalar> preMapPositions(boundaryPoints.size());
     List<DynList<scalar, 6> > faceCentreDistances(bFaces.size());
 
     # ifdef USE_OMP

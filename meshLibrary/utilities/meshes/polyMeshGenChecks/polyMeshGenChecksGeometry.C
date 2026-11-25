@@ -724,7 +724,7 @@ bool checkMinTwist
                         fCentres[faceI]
                     );
 
-                    const vector triArea = triangle.normal();
+                    const vector triArea = help::facetAreaVector(triangle);
 
                     const scalar magTri = (mag(triArea) + VSMALL);
 
@@ -781,7 +781,7 @@ bool checkMinTwist
                     fCentres[faceI]
                 );
 
-                const vector triArea = triangle.normal();
+                const vector triArea = help::facetAreaVector(triangle);
 
                 const scalar magTri = mag(triArea);
 
@@ -869,7 +869,7 @@ bool checkMinTwist
                             fCentres[faceI]
                         );
 
-                        const vector triArea = triangle.normal();
+                        const vector triArea = help::facetAreaVector(triangle);
 
                         const scalar magTri = (mag(triArea) + VSMALL);
 
@@ -1363,7 +1363,7 @@ bool checkTriangleTwist
                         fCentres[faceI]
                     );
 
-                    vector prevN = tri.normal();
+                    vector prevN = help::facetAreaVector(tri);
 
                     const scalar magTri = mag(prevN) + VSMALL;
 
@@ -1379,7 +1379,7 @@ bool checkTriangleTwist
                             fCentres[faceI]
                         );
 
-                        vector triN = tri.normal();
+                        vector triN = help::facetAreaVector(tri);
 
                         scalar magTriN = mag(triN) + VSMALL;
 
@@ -2248,7 +2248,7 @@ void checkFaceSkewness
         {
             const vector d = fCentres[faceI] - centres[own[faceI]];
 
-            vector n = faces[faceI].normal(points);
+            vector n = help::faceAreaVector(points, faces[faceI]);
             const scalar magn = mag(n);
             if( magn > VSMALL )
             {

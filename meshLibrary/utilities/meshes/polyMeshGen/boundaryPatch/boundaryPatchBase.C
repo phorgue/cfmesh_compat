@@ -61,7 +61,7 @@ autoPtr<boundaryPatchBase> boundaryPatchBase::New
     if( type != "processor" )
         type = "patch";
     
-    dictionaryConstructorTable::iterator cstrIter =
+    const auto cstrIter =
         dictionaryConstructorTablePtr_->find(type);
 
     if( cstrIter == dictionaryConstructorTablePtr_->end() )

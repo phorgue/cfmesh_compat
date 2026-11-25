@@ -70,9 +70,9 @@ objectRefinements
 
 meshQualitySettings
 {
-    maxNonOrthogonality        30;
+    maxNonOrthogonality        65;
 
-    minTetQuality              1e-10;
+    maxSkewness   4.0;
 }
 
 // ************************************************************************* //

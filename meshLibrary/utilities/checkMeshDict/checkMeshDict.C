@@ -285,7 +285,7 @@ void checkMeshDict::checkObjectRefinements() const
             forAll(refObjects, objectI)
             {
                 const entry& objectEntry =
-                    dict.lookupEntry(objectNames[objectI], false, false);
+                    dict.lookupEntry(objectNames[objectI], keyType::REGEX);
 
                 refObjects.set
                 (
@@ -349,7 +349,7 @@ void checkMeshDict::checkAnisotropicSources() const
             forAll(anisotropicObjects, objectI)
             {
                 const entry& objectEntry =
-                    dict.lookupEntry(objectNames[objectI], false, false);
+                    dict.lookupEntry(objectNames[objectI], keyType::REGEX);
 
                 anisotropicObjects.set
                 (

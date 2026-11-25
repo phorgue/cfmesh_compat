@@ -66,7 +66,7 @@ void symmetryPlaneOptimisation::detectSymmetryPlanes()
             for(label faceI=start;faceI<end;++faceI)
             {
                 cs.first += faces[faceI].centre(points);
-                ns.first += faces[faceI].normal(points);
+                ns.first += help::faceAreaVector(points, faces[faceI]);
             }
 
             cs.second = ns.second = boundaries[patchI].patchSize();

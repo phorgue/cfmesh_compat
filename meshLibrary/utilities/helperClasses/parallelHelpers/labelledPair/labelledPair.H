@@ -199,7 +199,7 @@ class labelledPair
 //- Specify data associated with labelledPair
 //- type is contiguous
 template<>
-inline bool contiguous<labelledPair>() {return true;}
+struct is_contiguous<labelledPair> : std::true_type{};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

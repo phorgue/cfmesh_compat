@@ -42,20 +42,19 @@ void triSurfaceImportSurfaceAsSubset::createOctree
     const triSurf& /*surf*/,
     meshOctree& /*octree*/
 )
-{
-}
+{}
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 triSurfaceImportSurfaceAsSubset::triSurfaceImportSurfaceAsSubset(triSurf& surface)
 :
     surf_(surface),
-    octreePtr_(NULL)
+    octreePtr_()
 {}
 
 triSurfaceImportSurfaceAsSubset::~triSurfaceImportSurfaceAsSubset()
 {
-    deleteDemandDrivenData(octreePtr_);
+    octreePtr_.reset();
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -69,7 +68,8 @@ void triSurfaceImportSurfaceAsSubset::addSurfaceAsSubset
 {
     if( !octreePtr_ )
     {
-        octreePtr_ = new meshOctree(surf_);
+        octreePtr_ = std::make_unique<meshOctree>(surf_);
+
         meshOctreeCreator(*octreePtr_).createOctreeWithRefinedBoundary
         (
             direction(20),
